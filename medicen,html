@@ -1,0 +1,466 @@
+<body>
+<center>
+    <div class="content">
+        <h1>🏥 Sri Ram Medical Shop</h1>
+        <p>Your trusted healthcare partner</p>
+    </div>
+    <h1>Welcome to Our Medical Shop</h1>
+</div>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <div class="logo">
+            💊 MediCare
+        </div>
+
+        <body>
+<center>
+    <div class="content">
+        <h1>🏥 Sri Ram Medical Shop</h1>
+        <p>Your trusted healthcare partner</p>
+    </div>
+    <h1>Welcome to Our Medical Shop</h1>
+</div>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <div class="logo">
+            💊 MediCare
+        </div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#medicines">Medicines</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <button class="order-btn" onclick="orderNow()">
+            Order Medicine
+        </button>
+    </header>
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <h1>
+                Your Trusted
+                <span>Medical Shop</span>
+            </h1>
+
+            <p>
+                Quality medicines and healthcare products
+                at affordable prices.
+            </p>
+
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search medicine..."
+                    onkeyup="searchMedicine()"
+                >
+
+                <button onclick="searchMedicine()">
+                    🔍 Search
+                </button>
+            </div>
+
+        </div>
+
+        <div class="hero-image">
+            💊
+        </div>
+
+    </section>
+
+
+    <!-- Medicines -->
+    <section class="medicines" id="medicines">
+
+        <h2>Available Medicines</h2>
+
+        <p class="section-text">
+            Browse our commonly available medicines
+        </p>
+
+        <div class="medicine-container">
+
+            <div class="medicine-card">
+                <div class="medicine-icon">💊</div>
+                <h3>Paracetamol</h3>
+                <p>For fever and pain relief</p>
+                <h4>₹30</h4>
+                <button onclick="addToCart('Paracetamol', 30)">
+                    Add to Cart
+                </button>
+            </div>
+
+
+            <div class="medicine-card">
+                <div class="medicine-icon">💊</div>
+                <h3>Vitamin C</h3>
+                <p>Vitamin supplement</p>
+                <h4>₹120</h4>
+                <button onclick="addToCart('Vitamin C', 120)">
+                    Add to Cart
+                </button>
+            </div>
+
+
+            <div class="medicine-card">
+                <div class="medicine-icon">💊</div>
+                <h3>ORS</h3>
+                <p>Oral rehydration solution</p>
+                <h4>₹25</h4>
+                <button onclick="addToCart('ORS', 25)">
+                    Add to Cart
+                </button>
+            </div>
+
+
+            <div class="medicine-card">
+                <div class="medicine-icon">🧴</div>
+                <h3>Antiseptic</h3>
+                <p>For minor wound cleaning</p>
+                <h4>₹85</h4>
+                <button onclick="addToCart('Antiseptic', 85)">
+                    Add to Cart
+                </button>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Services -->
+    <section class="services" id="services">
+
+        <h2>Our Services</h2>
+
+        <div class="service-container">
+
+            <div class="service-card">
+                <span>🚚</span>
+                <h3>Home Delivery</h3>
+                <p>
+                    Get your medicines delivered to your home.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <span>📋</span>
+                <h3>Prescription Orders</h3>
+                <p>
+                    Send your prescription and place an order.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <span>🩺</span>
+                <h3>Healthcare Products</h3>
+                <p>
+                    Find healthcare and wellness products.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Cart -->
+    <section class="cart">
+
+        <h2>🛒 Your Cart</h2>
+
+        <div id="cartItems">
+            <p>No medicines added yet.</p>
+        </div>
+
+        <h3>
+            Total: ₹<span id="total">0</span>
+        </h3>
+
+        <button class="checkout-btn" onclick="checkout()">
+            Place Order
+        </button>
+
+    </section>
+
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+
+        <h2>Contact Us</h2>
+
+        <div class="contact-container">
+
+            <div>
+                <h3>📍 Shop Address</h3>
+                <p>
+                    Your Medical Shop Address,<br>
+                    Chennai, Tamil Nadu
+                </p>
+            </div>
+
+            <div>
+                <h3>📞 Phone</h3>
+                <p>+91 XXXXX XXXXX</p>
+            </div>
+
+            <div>
+                <h3>⏰ Opening Hours</h3>
+                <p>
+                    Monday - Sunday<br>
+                    8:00 AM - 10:00 PM
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <h3>💊 MediCare Medical Shop</h3>
+
+        <p>
+            Your trusted healthcare partner.
+        </p>
+
+        <p>
+            © 2026 MediCare Medical Shop
+        </p>
+
+    </footer>
+
+
+    <script src="home.js"></script>
+</centet>
+</body>
+</html>
+
+        <button class="order-btn" onclick="orderNow()">
+            Order Medicine
+        </button>
+    </header>
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <h1>
+                Your Trusted
+                <span>Medical Shop</span>
+            </h1>
+
+            <p>
+                Quality medicines and healthcare products
+                at affordable prices.
+            </p>
+
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search medicine..."
+                    onkeyup="searchMedicine()"
+                >
+
+                <button onclick="searchMedicine()">
+                    🔍 Search
+                </button>
+            </div>
+
+        </div>
+
+        <div class="hero-image">
+            💊
+        </div>
+
+    </section>
+
+
+    <!-- Medicines -->
+    <section class="medicines" id="medicines">
+
+        <h2>Available Medicines</h2>
+
+        <p class="section-text">
+            Browse our commonly available medicines
+        </p>
+
+        <div class="medicine-container">
+
+            <div class="medicine-card">
+                <div class="medicine-icon">💊</div>
+                <h3>Paracetamol</h3>
+                <p>For fever and pain relief</p>
+                <h4>₹30</h4>
+                <button onclick="addToCart('Paracetamol', 30)">
+                    Add to Cart
+                </button>
+            </div>
+
+
+            <div class="medicine-card">
+                <div class="medicine-icon">💊</div>
+                <h3>Vitamin C</h3>
+                <p>Vitamin supplement</p>
+                <h4>₹120</h4>
+                <button onclick="addToCart('Vitamin C', 120)">
+                    Add to Cart
+                </button>
+            </div>
+
+
+            <div class="medicine-card">
+                <div class="medicine-icon">💊</div>
+                <h3>ORS</h3>
+                <p>Oral rehydration solution</p>
+                <h4>₹25</h4>
+                <button onclick="addToCart('ORS', 25)">
+                    Add to Cart
+                </button>
+            </div>
+
+
+            <div class="medicine-card">
+                <div class="medicine-icon">🧴</div>
+                <h3>Antiseptic</h3>
+                <p>For minor wound cleaning</p>
+                <h4>₹85</h4>
+                <button onclick="addToCart('Antiseptic', 85)">
+                    Add to Cart
+                </button>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Services -->
+    <section class="services" id="services">
+
+        <h2>Our Services</h2>
+
+        <div class="service-container">
+
+            <div class="service-card">
+                <span>🚚</span>
+                <h3>Home Delivery</h3>
+                <p>
+                    Get your medicines delivered to your home.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <span>📋</span>
+                <h3>Prescription Orders</h3>
+                <p>
+                    Send your prescription and place an order.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <span>🩺</span>
+                <h3>Healthcare Products</h3>
+                <p>
+                    Find healthcare and wellness products.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Cart -->
+    <section class="cart">
+
+        <h2>🛒 Your Cart</h2>
+
+        <div id="cartItems">
+            <p>No medicines added yet.</p>
+        </div>
+
+        <h3>
+            Total: ₹<span id="total">0</span>
+        </h3>
+
+        <button class="checkout-btn" onclick="checkout()">
+            Place Order
+        </button>
+
+    </section>
+
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+
+        <h2>Contact Us</h2>
+
+        <div class="contact-container">
+
+            <div>
+                <h3>📍 Shop Address</h3>
+                <p>
+                    Your Medical Shop Address,<br>
+                    Chennai, Tamil Nadu
+                </p>
+            </div>
+
+            <div>
+                <h3>📞 Phone</h3>
+                <p>+91 9787975020</p>
+            </div>
+
+            <div>
+                <h3>⏰ Opening Hours</h3>
+                <p>
+                    Monday - Sunday<br>
+                    9 AM - 10:00 PM
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <h3>💊 MediCare Medical Shop</h3>
+
+        <p>
+            Your trusted healthcare partner.
+        </p>
+
+        <p>
+            © 2026 MediCare Medical Shop
+        </p>
+
+    </footer>
+
+
+    <script src="home.js"></script>
+</centet>
+</body>
+</html>

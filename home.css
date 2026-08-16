@@ -1,0 +1,1121 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #16352d;
+    background: #061019; /* Dark cinematic background to match 3D theme */
+    overflow-x: hidden;
+    position: relative;
+    perspective: 1000px;
+}
+
+/* ====== 3D BACKGROUND CANVAS ====== */
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    z-index: 0;
+}
+
+#grade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(ellipse at 50% 40%, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 40%, rgba(3,10,18,0.75) 100%),
+                linear-gradient(180deg, rgba(6,16,25,0.55) 0%, rgba(6,16,25,0.05) 25%, rgba(6,16,25,0.05) 70%, rgba(6,16,25,0.75) 100%);
+    display: block; /* Show cinematic vignette */
+}
+
+/* Interactive Glow Effect */
+#glowCursor {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0.5;
+    background: radial-gradient(circle at 30% 30%, rgba(52, 211, 153, 0.3), rgba(52, 211, 153, 0.1), transparent);
+    filter: blur(80px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+body.mouse-active #glowCursor {
+    opacity: 1;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: transparent;
+    pointer-events: none;
+    z-index: 0;
+    display: none; /* Hidden - using 3D canvas instead */
+}
+
+@keyframes bgGlow {
+    0%, 100% {
+        filter: brightness(1) saturate(1);
+    }
+    50% {
+        filter: brightness(1.08) saturate(1.15);
+    }
+}
+
+header, main, footer {
+    position: relative;
+    z-index: 2;
+}
+
+.medical-background {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    background: transparent;
+    perspective: 1200px;
+    transform: translate3d(0, 0, 0);
+    display: none; /* Hidden - using 3D canvas instead */
+}
+
+@keyframes bgFloat {
+    0%, 100% {
+        transform: translate3d(0, 0, 0) rotateX(0deg);
+    }
+    50% {
+        transform: translate3d(10px, -15px, 50px) rotateX(2deg);
+    }
+}
+
+.medical-background::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(9, 127, 91, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(9, 127, 91, 0.05) 1px, transparent 1px);
+    background-size: 38px 38px;
+    transform: rotate(8deg) scale(1.3);
+    animation: gridShift 20s linear infinite;
+}
+
+@keyframes gridShift {
+    0% {
+        transform: rotate(8deg) scale(1.3) translateY(0);
+    }
+    100% {
+        transform: rotate(8deg) scale(1.3) translateY(38px);
+    }
+}
+
+.medical-background::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(ellipse 600px 400px at 20% 30%, rgba(255,255,255,0.3) 0%, transparent 50%),
+        radial-gradient(ellipse 500px 500px at 80% 70%, rgba(52,211,153,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse 700px 300px at 50% 10%, rgba(100,180,255,0.12) 0%, transparent 50%);
+    z-index: 1;
+    animation: layerShift 12s ease-in-out infinite;
+}
+
+@keyframes layerShift {
+    0%, 100% {
+        transform: translateY(-20px) scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translateY(20px) scale(1.02);
+        opacity: 1;
+    }
+}
+
+.medical-object {
+    position: absolute;
+    font-size: 60px;
+    opacity: 0.22;
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 15px 35px rgba(0,0,0,0.18)) drop-shadow(0 8px 15px rgba(0,0,0,0.1));
+    user-select: none;
+    will-change: transform;
+    text-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.medical-object:hover {
+    opacity: 0.5;
+    filter: drop-shadow(0 20px 50px rgba(52, 211, 153, 0.4)) 
+            drop-shadow(0 10px 25px rgba(52, 211, 153, 0.3))
+            drop-shadow(0 0px 30px rgba(52, 211, 153, 0.5));
+    text-shadow: 0 0px 30px rgba(52, 211, 153, 0.8), 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.medical-object.pulse-glow {
+    animation: glowPulse 0.6s ease-out !important;
+}
+
+@keyframes glowPulse {
+    0% {
+        filter: drop-shadow(0 20px 50px rgba(52, 211, 153, 0.6)) 
+                drop-shadow(0 10px 30px rgba(52, 211, 153, 0.5))
+                drop-shadow(0 0px 40px rgba(52, 211, 153, 0.7));
+        transform: scale(1.3);
+    }
+    100% {
+        filter: drop-shadow(0 15px 35px rgba(0,0,0,0.18)) drop-shadow(0 8px 15px rgba(0,0,0,0.1));
+        transform: scale(1);
+    }
+}
+
+@keyframes float3D {
+    0% {
+        transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+    }
+    12.5% {
+        transform: translate3d(90px, -80px, 180px) rotateX(90deg) rotateY(120deg) rotateZ(45deg) scale(1.1);
+    }
+    25% {
+        transform: translate3d(120px, -120px, 220px) rotateX(180deg) rotateY(150deg) rotateZ(90deg) scale(1.15);
+    }
+    37.5% {
+        transform: translate3d(80px, -140px, 260px) rotateX(210deg) rotateY(200deg) rotateZ(135deg) scale(1.2);
+    }
+    50% {
+        transform: translate3d(-110px, -170px, 300px) rotateX(270deg) rotateY(240deg) rotateZ(180deg) scale(1.25);
+    }
+    62.5% {
+        transform: translate3d(-140px, -120px, 260px) rotateX(300deg) rotateY(270deg) rotateZ(225deg) scale(1.2);
+    }
+    75% {
+        transform: translate3d(115px, -65px, 200px) rotateX(300deg) rotateY(300deg) rotateZ(270deg) scale(1.15);
+    }
+    87.5% {
+        transform: translate3d(60px, -30px, 140px) rotateX(330deg) rotateY(330deg) rotateZ(315deg) scale(1.08);
+    }
+    100% {
+        transform: translate3d(0, 0, 0) rotateX(360deg) rotateY(360deg) rotateZ(360deg) scale(1);
+    }
+}
+
+@keyframes float3DDeep {
+    0% {
+        transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+    }
+    12.5% {
+        transform: translate3d(-100px, -90px, 220px) rotateX(120deg) rotateY(150deg) rotateZ(-45deg) scale(1.15);
+    }
+    25% {
+        transform: translate3d(-130px, -130px, 280px) rotateX(160deg) rotateY(190deg) rotateZ(-90deg) scale(1.2);
+    }
+    37.5% {
+        transform: translate3d(-90px, -150px, 320deg) rotateX(200deg) rotateY(230deg) rotateZ(-135deg) scale(1.25);
+    }
+    50% {
+        transform: translate3d(130px, -160px, 340deg) rotateX(-180deg) rotateY(270deg) rotateZ(-180deg) scale(1.3);
+    }
+    62.5% {
+        transform: translate3d(160px, -110px, 300deg) rotateX(-140deg) rotateY(290deg) rotateZ(-225deg) scale(1.25);
+    }
+    75% {
+        transform: translate3d(-120px, -70px, 220deg) rotateX(-100deg) rotateY(320deg) rotateZ(-270deg) scale(1.18);
+    }
+    87.5% {
+        transform: translate3d(-50px, -40px, 160deg) rotateX(-60deg) rotateY(340deg) rotateZ(-315deg) scale(1.1);
+    }
+    100% {
+        transform: translate3d(0, 0, 0) rotateX(360deg) rotateY(360deg) rotateZ(360deg) scale(1);
+    }
+}
+
+.pill1 { top: 10%; left: 5%; animation: float3D 14s infinite; }
+.pill2 { top: 68%; left: 20%; animation: float3D 18s infinite reverse; }
+.injection { top: 15%; left: 78%; animation: float3DDeep 16s infinite; }
+.heart { top: 72%; left: 83%; animation: float3DDeep 13s infinite reverse; }
+.doctor { top: 45%; left: 8%; animation: float3D 20s infinite; }
+.medicine { top: 80%; left: 52%; animation: float3DDeep 15s infinite reverse; }
+.hospital { top: 12%; left: 52%; animation: float3D 17s infinite; }
+.dna { top: 55%; left: 72%; animation: float3DDeep 19s infinite reverse; }
+.plus1 { top: 35%; left: 34%; font-size: 100px; color: #087f5b; opacity: 0.3; animation: float3D 12s infinite; filter: drop-shadow(0 20px 40px rgba(8,127,91,0.3)); }
+.plus2 { top: 75%; left: 66%; font-size: 80px; color: #087f5b; opacity: 0.25; animation: float3DDeep 15s infinite reverse; filter: drop-shadow(0 20px 40px rgba(8,127,91,0.3)); }
+
+/* Button Glow Effects */
+button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.4), transparent 60%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+button:hover::before {
+    opacity: 1;
+}
+
+button:hover, button:active {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(52, 211, 153, 0.4), 0 0px 20px rgba(52, 211, 153, 0.3);
+}
+
+.order-btn {
+    border: none;
+    background: linear-gradient(135deg, #087f5b, #05a854);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(8, 127, 91, 0.2);
+}
+
+.order-btn:hover {
+    box-shadow: 0 15px 40px rgba(52, 211, 153, 0.5), 
+                0 0px 30px rgba(52, 211, 153, 0.4),
+                inset 0 0px 20px rgba(255,255,255,0.2);
+    background: linear-gradient(135deg, #06a852, #04d959);
+}
+
+.order-btn:active {
+    box-shadow: 0 5px 15px rgba(52, 211, 153, 0.3), 
+                inset 0 0px 20px rgba(0,0,0,0.1);
+}
+
+.checkout-btn {
+    margin-top: 20px;
+    border: none;
+    background: linear-gradient(135deg, #087f5b, #05a854);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(8, 127, 91, 0.2);
+}
+
+.checkout-btn:hover {
+    box-shadow: 0 15px 40px rgba(52, 211, 153, 0.5), 
+                0 0px 30px rgba(52, 211, 153, 0.4),
+                inset 0 0px 20px rgba(255,255,255,0.2);
+    background: linear-gradient(135deg, #06a852, #04d959);
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 7%;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.logo {
+    color: #087f5b;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    gap: 28px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #173b31;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #087f5b;
+    transform: translateY(-3px);
+}
+
+.order-btn {
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    background: #087f5b;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.order-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.hero {
+    min-height: 700px;
+    padding: 80px 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.hero-content {
+    max-width: 650px;
+    padding: 45px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+    transform: translateZ(80px);
+}
+
+.welcome {
+    color: #087f5b;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin: 20px 0;
+    line-height: 1.1;
+}
+
+.brand-3d-title {
+    color: #0a5c45;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 0 #dffaf1, 0 2px 0 #c7f5e2, 0 3px 0 #abefd5, 0 12px 25px rgba(8,127,91,0.22);
+    transform: perspective(1000px) rotateX(18deg);
+    animation: brandFloat 4s ease-in-out infinite;
+}
+
+.brand-3d-title span {
+    display: block;
+    color: #0d8d67;
+    font-size: clamp(1.1rem, 2vw, 2.1rem);
+    margin-top: 8px;
+    text-shadow: 0 1px 0 #e8fff6, 0 2px 0 #d4faeb, 0 9px 20px rgba(12,141,103,0.25);
+}
+
+@keyframes brandFloat {
+    0%, 100% {
+        transform: perspective(1000px) rotateX(18deg) translateY(0);
+    }
+    50% {
+        transform: perspective(1000px) rotateX(14deg) translateY(-8px);
+    }
+}
+
+.hero p {
+    font-size: 19px;
+    color: #5c6f68;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.search-box {
+    display: flex;
+    margin-bottom: 25px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 16px;
+    border: 1px solid #d4e9e1;
+    outline: none;
+    border-radius: 10px 0 0 10px;
+    font-size: 16px;
+    background: rgba(255,255,255,0.9);
+}
+
+.search-box button {
+    border: none;
+    padding: 16px 25px;
+    background: #087f5b;
+    color: white;
+    cursor: pointer;
+    border-radius: 0 10px 10px 0;
+}
+
+.hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.medical-3d-card {
+    width: 330px;
+    height: 400px;
+    border-radius: 35px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(215,250,239,0.7));
+    backdrop-filter: blur(20px);
+    box-shadow: 25px 30px 60px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transform: perspective(1000px) rotateY(-15deg) rotateX(5deg);
+    transition: 0.5s;
+}
+
+.medical-3d-card:hover {
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(-15px);
+}
+
+.card-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #0dbb88, #087f5b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset -15px -15px 30px rgba(0,0,0,0.15), 15px 20px 30px rgba(0,0,0,0.15);
+    transform: translateZ(50px);
+}
+
+.medical-cross {
+    color: white;
+    font-size: 100px;
+    font-weight: bold;
+}
+
+.medical-3d-card h2 {
+    margin-top: 30px;
+    color: #087f5b;
+}
+
+.medical-3d-card p {
+    margin-top: 8px;
+    color: #607d73;
+}
+
+.floating-pill {
+    position: absolute;
+    top: 40px;
+    right: 30px;
+    font-size: 55px;
+    animation: smallFloat 3s infinite ease-in-out;
+}
+
+.floating-heart {
+    position: absolute;
+    bottom: 80px;
+    left: 25px;
+    font-size: 45px;
+    animation: smallFloat 2.5s infinite ease-in-out;
+}
+
+@keyframes smallFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(15deg); }
+}
+
+.medicines {
+    padding: 80px 8%;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
+    text-align: center;
+}
+
+.medicines h2,
+.services h2,
+.contact h2,
+.cart h2 {
+    font-size: 36px;
+    color: #075c45;
+    margin-bottom: 12px;
+}
+
+.section-text {
+    color: #71827c;
+    margin-bottom: 40px;
+}
+
+.medicine-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.medicine-card {
+    background: white;
+    padding: 30px 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+}
+
+.medicine-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(52, 211, 153, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.medicine-card:hover {
+    transform: translateY(-12px) rotateX(8deg) rotateY(-8deg) scale(1.03);
+    box-shadow: 0 30px 60px rgba(52, 211, 153, 0.35), 
+                0 0px 40px rgba(52, 211, 153, 0.25),
+                inset 0 0px 20px rgba(52, 211, 153, 0.1);
+}
+
+.medicine-card:hover::before {
+    opacity: 1;
+}
+
+.medicine-card:active {
+    transform: translateY(-5px) rotateX(3deg) rotateY(-3deg) scale(0.98);
+    box-shadow: 0 15px 30px rgba(52, 211, 153, 0.2);
+}
+
+.medicine-icon {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.medicine-card h3 {
+    margin-bottom: 10px;
+}
+
+.medicine-card p {
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.medicine-card h4 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #087f5b;
+}
+
+.medicine-card button {
+    border: none;
+    padding: 11px 20px;
+    background: linear-gradient(135deg, #087f5b, #05a854);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(8, 127, 91, 0.2);
+}
+
+.medicine-card button:hover {
+    box-shadow: 0 12px 30px rgba(52, 211, 153, 0.4), 
+                0 0px 20px rgba(52, 211, 153, 0.3),
+                inset 0 0px 15px rgba(255,255,255,0.2);
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #06a852, #04d959);
+}
+
+.medicine-card button:active {
+    transform: translateY(0px);
+    box-shadow: 0 5px 15px rgba(52, 211, 153, 0.2), 
+                inset 0 0px 10px rgba(0,0,0,0.1);
+}
+
+.services {
+    padding: 80px 8%;
+    text-align: center;
+    background: #e9fff7;
+}
+
+.service-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.service-card {
+    background: white;
+    padding: 40px 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(100, 200, 255, 0.15), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-12px) rotateX(5deg) rotateY(-5deg) scale(1.03);
+    box-shadow: 0 30px 60px rgba(52, 211, 153, 0.28), 
+                0 0px 40px rgba(100, 200, 255, 0.2),
+                inset 0 0px 25px rgba(255,255,255,0.4);
+}
+
+.service-card:hover::before {
+    opacity: 1;
+}
+
+.service-card:active {
+    transform: translateY(-6px) rotateX(2deg) rotateY(-2deg) scale(0.97);
+    box-shadow: 0 15px 30px rgba(52, 211, 153, 0.15);
+}
+
+.service-card span {
+    font-size: 45px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.service-card h3 {
+    font-size: 24px;
+    margin-bottom: 12px;
+    color: #075c45;
+}
+
+.service-card p {
+    color: #5d6d68;
+    line-height: 1.6;
+}
+
+.cart {
+    padding: 80px 8%;
+    text-align: center;
+    background: rgba(255,255,255,0.78);
+}
+
+#cartItems {
+    max-width: 500px;
+    margin: 20px auto;
+    background: rgba(255,255,255,0.9);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    border-bottom: 1px solid #e0efe9;
+}
+
+.cart-item button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.checkout-btn {
+    margin-top: 20px;
+    border: none;
+    background: #087f5b;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.nocold {
+    padding: 80px 8%;
+    text-align: center;
+    background: rgba(255,255,255,0.9);
+}
+
+.nocold h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #075c45;
+}
+
+.nocold-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px;
+    align-items: center;
+    margin-top: 40px;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.nocold-image {
+    text-align: center;
+}
+
+.nocold-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+}
+
+.nocold-image img:hover {
+    transform: scale(1.05);
+}
+
+.nocold-table {
+    text-align: left;
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.product-table thead {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+}
+
+.product-table th {
+    padding: 15px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.product-table tbody tr {
+    border-bottom: 2px solid #ecf0f1;
+    transition: background 0.3s ease;
+}
+
+.product-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.product-table td {
+    padding: 12px 15px;
+    color: #16352d;
+}
+
+.product-table strong {
+    color: #075c45;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .nocold-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .product-table {
+        font-size: 14px;
+    }
+    
+    .product-table td {
+        padding: 10px;
+    }
+}
+
+.omee {
+    padding: 80px 8%;
+    text-align: center;
+    background: rgba(255, 240, 240, 0.9);
+}
+
+.omee h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #c0392b;
+}
+
+.omee-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px;
+    align-items: center;
+    margin-top: 40px;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(192, 57, 43, 0.15);
+}
+
+.omee-image {
+    text-align: center;
+}
+
+.omee-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(192, 57, 43, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.omee-image img:hover {
+    transform: scale(1.05);
+}
+
+.omee-table {
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .omee-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+}
+
+/* ====== OKACET CIPLA TABLET SECTION ====== */
+.okacet {
+    padding: 80px 8%;
+    text-align: center;
+    background: rgba(230, 245, 255, 0.9);
+}
+
+.okacet h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #2980b9;
+}
+
+.okacet-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px;
+    align-items: center;
+    margin-top: 40px;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(41, 128, 185, 0.15);
+    animation: scaleIn 0.8s ease-out;
+}
+
+.okacet-image {
+    text-align: center;
+    animation: slideInLeft 0.8s ease-out 0.2s both;
+}
+
+.okacet-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(41, 128, 185, 0.2);
+    transition: transform 0.3s ease;
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.okacet-image img:hover {
+    transform: scale(1.05);
+}
+
+.okacet-table {
+    text-align: left;
+    animation: slideInRight 0.8s ease-out 0.3s both;
+}
+
+/* Okacet Table Header Styling */
+.okacet-table .product-table thead {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .okacet-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+}
+
+/* ====== ALKOF COUGH SYRUP SECTION ====== */
+.alkof {
+    padding: 80px 8%;
+    text-align: center;
+    background: rgba(240, 235, 250, 0.9);
+}
+
+.alkof h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #8e44ad;
+}
+
+.alkof-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px;
+    align-items: center;
+    margin-top: 40px;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(155, 89, 182, 0.15);
+    animation: scaleIn 0.8s ease-out;
+}
+
+.alkof-image {
+    text-align: center;
+    animation: slideInLeft 0.8s ease-out 0.2s both;
+}
+
+.alkof-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(155, 89, 182, 0.2);
+    transition: transform 0.3s ease;
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.alkof-image img:hover {
+    transform: scale(1.05);
+}
+
+.alkof-table {
+    text-align: left;
+    animation: slideInRight 0.8s ease-out 0.3s both;
+}
+
+/* Alkof Table Header Styling */
+.alkof-table .product-table thead {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .alkof-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+}
+
+.contact {
+    padding: 80px 8%;
+    text-align: center;
+    background: #edfef7;
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.contact-container div {
+    background: white;
+    padding: 30px 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.contact-container h3 {
+    margin-bottom: 10px;
+    color: #0b6f52;
+}
+
+.contact-container p {
+    color: #536861;
+    line-height: 1.7;
+}
+
+footer {
+    background: #0d2d2a;
+    color: white;
+    text-align: center;
+    padding: 30px 10%;
+}
+
+footer h3 {
+    margin-bottom: 12px;
+}
+
+footer p {
+    color: rgba(255,255,255,0.75);
+    margin-top: 8px;
+}
+
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .medicine-container,
+    .service-container,
+    .contact-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    nav {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-content {
+        padding: 30px 20px;
+    }
+
+    .medicine-container,
+    .service-container,
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    .search-box input,
+    .search-box button {
+        border-radius: 10px;
+    }
+
+    .medical-3d-card {
+        width: 280px;
+        height: 360px;
+    }
+}

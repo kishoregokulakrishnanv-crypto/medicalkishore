@@ -1,0 +1,398 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kishore Medical </title>
+    <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+    <!-- 3D Cinematic Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+    <div id="grade"></div>
+
+    <div class="medical-background" aria-hidden="true">
+        <span class="medical-object pill1">💊</span>
+        <span class="medical-object pill2">💊</span>
+        <span class="medical-object injection">💉</span>
+        <span class="medical-object heart">❤️</span>
+        <span class="medical-object doctor">🩺</span>
+        <span class="medical-object medicine">🧴</span>
+        <span class="medical-object hospital">🏥</span>
+        <span class="medical-object dna">🧬</span>
+        <span class="medical-object plus1">＋</span>
+        <span class="medical-object plus2">＋</span>
+    </div>
+
+    <header>
+        <div class="logo">💊 Kishore Medical</div>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#medicines">Medicines</a>
+            <a href="#nocold">NoCold</a>
+            <a href="#omee">OMEE</a>
+            <a href="#okacet">Okacet</a>
+            <a href="#alkof">Alkof</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button class="order-btn" onclick="orderNow()">Order Medicine</button>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <div class="welcome">24/7 HEALTHCARE</div>
+                <h1 class="brand-3d-title">
+                    Kishore Medical
+                    <span></span>
+                </h1>
+                <p>
+                    Quality medicines and healthcare products at affordable prices for your family.
+                </p>
+
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search medicine..." onkeyup="searchMedicine()" />
+                    <button onclick="searchMedicine()">🔍 Search</button>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="medical-3d-card">
+                    <div class="card-circle">
+                        <div class="medical-cross">✚</div>
+                    </div>
+                    <h2>Care First</h2>
+                    <p>Trusted medicines. Better health.</p>
+                    <span class="floating-pill">💊</span>
+                    <span class="floating-heart">❤</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="medicines" id="medicines">
+            <h2>Available Medicines</h2>
+            <p class="section-text">Browse our commonly available medicines.</p>
+
+            <div class="medicine-container">
+                <div class="medicine-card">
+                    <div class="medicine-icon">💊</div>
+                    <h3>Paracetamol</h3>
+                    <p>For fever and pain relief</p>
+                    <h4>₹30</h4>
+                    <button onclick="addToCart('Paracetamol', 30)">Add to Cart</button>
+                </div>
+
+                <div class="medicine-card">
+                    <div class="medicine-icon">💊</div>
+                    <h3>Vitamin C</h3>
+                    <p>Vitamin supplement</p>
+                    <h4>₹120</h4>
+                    <button onclick="addToCart('Vitamin C', 120)">Add to Cart</button>
+                </div>
+
+                <div class="medicine-card">
+                    <div class="medicine-icon">💊</div>
+                    <h3>ORS</h3>
+                    <p>Oral rehydration solution</p>
+                    <h4>₹25</h4>
+                    <button onclick="addToCart('ORS', 25)">Add to Cart</button>
+                </div>
+
+                <div class="medicine-card">
+                    <div class="medicine-icon">🧴</div>
+                    <h3>Antiseptic</h3>
+                    <p>For minor wound cleaning</p>
+                    <h4>₹85</h4>
+                    <button onclick="addToCart('Antiseptic', 85)">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="nocold" id="nocold">
+            <h2>NoCold - Cold & Cough Relief</h2>
+            <p class="section-text">Effective relief from cold and cough symptoms.</p>
+            
+            <div class="nocold-container">
+                <div class="nocold-image">
+                    <img src="https://via.placeholder.com/300x400?text=NoCold+Medicine" alt="NoCold Medicine Package" />
+                </div>
+                
+                <div class="nocold-table">
+                    <table class="product-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2" style="background: #3498db; color: white; font-size: 18px;">NoCold Product Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Product Name</strong></td>
+                                <td>NoCold Syrup</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Type</strong></td>
+                                <td>Cough & Cold Syrup</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dosage</strong></td>
+                                <td>5ml - 10ml as needed</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pack Size</strong></td>
+                                <td>100ml, 200ml</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Price</strong></td>
+                                <td style="color: #27ae60; font-weight: bold;">₹95 - ₹150</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Uses</strong></td>
+                                <td>Cough relief, Cold symptoms, Throat soothener</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Availability</strong></td>
+                                <td style="color: #27ae60;">✓ In Stock</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="order-btn" onclick="addToCart('NoCold Syrup', 120)">Order Now</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="omee" id="omee">
+            <h2>OMEE - Antacid & Antiflatulent Liquid</h2>
+            <p class="section-text">Effective relief from acidity, bloating, and digestive discomfort.</p>
+            
+            <div class="omee-container">
+                <div class="omee-image">
+                    <img src="https://via.placeholder.com/300x400?text=OMEE+Antacid" alt="OMEE Antacid Liquid Bottle" />
+                </div>
+                
+                <div class="omee-table">
+                    <table class="product-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2" style="background: #e74c3c; color: white; font-size: 18px;">OMEE Product Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Product Name</strong></td>
+                                <td>OMEE Antacid Liquid</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Type</strong></td>
+                                <td>Antacid & Antiflatulent Suspension</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dosage</strong></td>
+                                <td>10ml - 20ml after meals</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pack Size</strong></td>
+                                <td>120ml, 200ml, 450ml</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Price</strong></td>
+                                <td style="color: #e74c3c; font-weight: bold;">₹85 - ₹180</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Active Ingredients</strong></td>
+                                <td>Aluminum Hydroxide, Magnesium Hydroxide, Simethicone</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Uses</strong></td>
+                                <td>Acidity relief, Gas & bloating, Indigestion, Heartburn</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Availability</strong></td>
+                                <td style="color: #27ae60;">✓ In Stock</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="order-btn" onclick="addToCart('OMEE Antacid Liquid', 110)">Order Now</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="okacet" id="okacet">
+            <h2>Okacet - Acetaminophen Tablet</h2>
+            <p class="section-text">Fast and effective pain relief and fever reduction.</p>
+            
+            <div class="okacet-container">
+                <div class="okacet-image">
+                    <img src="https://via.placeholder.com/300x400?text=Okacet+Tablet" alt="Okacet Acetaminophen Tablet" />
+                </div>
+                
+                <div class="okacet-table">
+                    <table class="product-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2" style="background: #3498db; color: white; font-size: 18px;">Okacet Product Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Product Name</strong></td>
+                                <td>Okacet Tablet</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Manufacturer</strong></td>
+                                <td>Cipla Ltd.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Composition</strong></td>
+                                <td>Acetaminophen (Paracetamol) 500mg</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dosage</strong></td>
+                                <td>1-2 tablets every 4-6 hours, max 4g/day</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pack Size</strong></td>
+                                <td>10, 15, 30 tablets per strip</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Price</strong></td>
+                                <td style="color: #27ae60; font-weight: bold;">₹15 - ₹45</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Uses</strong></td>
+                                <td>Fever, Body ache, Headache, Mild pain relief</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Availability</strong></td>
+                                <td style="color: #27ae60;">✓ In Stock</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="order-btn" onclick="addToCart('Okacet Tablet', 25)">Order Now</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="alkof" id="alkof">
+            <h2>Alkof - Cough Suppressant Syrup</h2>
+            <p class="section-text">Effective cough relief and bronchial comfort.</p>
+            
+            <div class="alkof-container">
+                <div class="alkof-image">
+                    <img src="https://via.placeholder.com/300x400?text=Alkof+Syrup" alt="Alkof Cough Syrup Bottle" />
+                </div>
+                
+                <div class="alkof-table">
+                    <table class="product-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2" style="background: #9b59b6; color: white; font-size: 18px;">Alkof Product Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Product Name</strong></td>
+                                <td>Alkof Cough Suppressant Syrup</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Type</strong></td>
+                                <td>Cough Suppressant & Bronchial Syrup</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dosage</strong></td>
+                                <td>5ml - 10ml, 3-4 times daily</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pack Size</strong></td>
+                                <td>100ml, 150ml, 200ml</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Price</strong></td>
+                                <td style="color: #8e44ad; font-weight: bold;">₹75 - ₹140</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Uses</strong></td>
+                                <td>Dry cough, Productive cough, Bronchial congestion</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Key Features</strong></td>
+                                <td>Sugar-free, No side effects, Fast relief</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Availability</strong></td>
+                                <td style="color: #27ae60;">✓ In Stock</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="order-btn" onclick="addToCart('Alkof Syrup', 95)">Order Now</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="services" id="services">
+            <h2>Our Services</h2>
+
+            <div class="service-container">
+                <div class="service-card">
+                    <span>🚚</span>
+                    <h3>Home Delivery</h3>
+                    <p>Get your medicines delivered to your home.</p>
+                </div>
+
+                <div class="service-card">
+                    <span>📋</span>
+                    <h3>Prescription Orders</h3>
+                    <p>Send your prescription and place an order.</p>
+                </div>
+
+                <div class="service-card">
+                    <span>🩺</span>
+                    <h3>Healthcare Products</h3>
+                    <p>Find healthcare and wellness products.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cart">
+            <h2>🛒 Your Cart</h2>
+            <div id="cartItems">
+                <p>No medicines added yet.</p>
+            </div>
+            <h3>Total: ₹<span id="total">0</span></h3>
+            <button class="checkout-btn" onclick="checkout()">Place Order</button>
+        </section>
+
+        <section class="contact" id="contact">
+            <h2>Contact Us</h2>
+
+            <div class="contact-container">
+                <div>
+                    <h3>📍 Shop Address</h3>
+                    <p>Your Medical Shop Address,<br />Chennai, Tamil Nadu</p>
+                </div>
+
+                <div>
+                    <h3>📞 Phone</h3>
+                    <p>+91 9787975020</p>
+                </div>
+
+                <div>
+                    <h3>⏰ Opening Hours</h3>
+                    <p>Monday - Sunday<br />9:00 AM - 10:00 PM</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <h3>💊 Kishore Medical</h3>
+        <p>Your trusted healthcare partner.</p>
+        <p>© 2026 Kishore Medical</p>
+    </footer>
+
+    <!-- Three.js for 3D Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="background3d.js"></script>
+    <script src="home.js"></script>
+</body>
+</html>
